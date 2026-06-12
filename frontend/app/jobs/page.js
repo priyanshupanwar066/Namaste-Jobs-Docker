@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense ,useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Briefcase, MapPin, Banknote, Clock, AlertCircle, ArrowLeft, Search } from "lucide-react";
 import { motion } from "framer-motion";
@@ -37,7 +37,7 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
       </button>
 
       {start > 1 && (
-        <>
+      	      <>
           <button onClick={() => onPageChange(1)} className="w-9 h-9 text-sm rounded-lg hover:bg-blue-50 text-slate-500 font-medium transition-colors">1</button>
           {start > 2 && <span className="text-slate-300 px-1">…</span>}
         </>
@@ -176,8 +176,8 @@ function JobCard({ job, onView, isNew }) {
   );
 }
 
-// ─── Main Page ────────────────────────────────────────────────────────────────
-const JobsPage = () => {
+// ─── Main Page ────────────────────────────────────────────────────────────
+function JobsPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const category = searchParams.get("category") || "";
@@ -214,10 +214,11 @@ const JobsPage = () => {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 8000);
 
-        const res = await fetch(`http://localhost:8000/api/jobs?${params}`, {
-          signal: controller.signal,
-        });
-
+       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/jobs?${params}`,
+  {
+    signal: controller.signal,
+  }
+       );
         clearTimeout(timeoutId);
 
         if (!res.ok) {
@@ -240,6 +241,7 @@ const JobsPage = () => {
 
     fetchJobs();
   }, [category, locationParam, currentPage]);
+
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -423,4 +425,10 @@ const JobsPage = () => {
   );
 };
 
-export default JobsPage;
+export default function JobsPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <JobsPageContent />
+    </Suspense>
+  );
+}

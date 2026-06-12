@@ -14,7 +14,7 @@ const JobDetails = () => {
   useEffect(() => {
     const fetchJobDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/api/jobs/${id}`);
+       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/jobs/${id}`);
         if (!response.ok) throw new Error("Failed to fetch job details");
         const data = await response.json();
         setJob(data);

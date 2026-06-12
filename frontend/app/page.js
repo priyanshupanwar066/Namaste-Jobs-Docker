@@ -436,7 +436,12 @@ export default function Home() {
     const fetchJobs = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch("http://localhost:8000/api/jobs", { credentials: "include" });
+        const response = await fetch(
+  `${process.env.NEXT_PUBLIC_API_URL}/jobs`,
+  {
+    credentials: "include",
+  }
+);
         if (!response.ok) throw new Error("Failed to fetch jobs");
         const data = await response.json();
         const jobsArray = Array.isArray(data) ? data : data.jobs || [];
