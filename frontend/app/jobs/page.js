@@ -214,7 +214,7 @@ function JobsPageContent() {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 8000);
 
-       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/jobs?${params}`,
+       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/jobs?${params}`,
   {
     signal: controller.signal,
   }

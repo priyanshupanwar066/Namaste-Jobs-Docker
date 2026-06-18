@@ -11,12 +11,19 @@ services:
       - ./backend/.env
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_API_URL: http://34.230.134.233:8000
+
     container_name: frontend
     restart: always
+
     ports:
       - "3000:3000"
+
     env_file:
       - ./frontend/.env.local
+
     depends_on:
       - backend

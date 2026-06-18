@@ -1,29 +1,32 @@
-#stage 1 - builder stage
+FROM node:22-alpine AS deps
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci
+
 FROM node:22-alpine AS builder
 
 WORKDIR /app
 
-COPY package*.json ./
-
-RUN npm install
-
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 
 RUN npm run build
 
-#stage 2 - Production stage
-FROM node:22-alpine
+FROM node:22-alpine AS runner
 
 WORKDIR /app
 
-COPY package*.json ./
+ENV NODE_ENV=production
 
-RUN npm install --omit=dev
-
-COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/next.config.mjs ./
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
 
 EXPOSE 3000
 
-CMD ["npm", "start"]
+CMD ["node", "server.js"]

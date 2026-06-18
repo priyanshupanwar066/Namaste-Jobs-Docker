@@ -16,7 +16,8 @@ const app = express();
 // ✅ Middleware
 app.use(cors({
   origin: [
-    "http://98.95.103.152:3000",
+    "http://34.230.134.233",
+    "http://34.230.134.233:3000",
     "http://localhost:3000",
     "https://namaste-jobs-frontend.vercel.app"
   ],
@@ -32,6 +33,12 @@ app.get("/", (req, res) => {
 });
 app.use("/api/jobs", jobRoutes);
 app.use("/api/auth", authRoutes);
+
+app.use("/api/jobs", jobRoutes);
+app.use("/jobs", jobRoutes);
+
+app.use("/api/auth", authRoutes);
+app.use("/auth", authRoutes);
 
 // ✅ Global Error Handler
 app.use((err, req, res, next) => {

@@ -437,7 +437,7 @@ export default function Home() {
       try {
         setIsLoading(true);
         const response = await fetch(
-  `${process.env.NEXT_PUBLIC_API_URL}/jobs`,
+  `${process.env.NEXT_PUBLIC_API_URL}/api/jobs`,
   {
     credentials: "include",
   }
