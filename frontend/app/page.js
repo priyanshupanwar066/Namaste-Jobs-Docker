@@ -538,13 +538,12 @@ export default function Home() {
         <div className="relative z-10 max-w-7xl mx-auto px-6 py-20 w-full">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
-              <div className="flex items-center gap-3">
-                <NamasteIcon />
+                
                 <div>
                   <h1 className="text-5xl font-black text-slate-900 leading-none">Namaste</h1>
                   <h1 className="text-5xl font-black text-blue-600 leading-none">Jobs</h1>
                 </div>
-              </div>
+              
 
               <div>
                 <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 leading-tight">Find Jobs. Build Careers.</h2>
